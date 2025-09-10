@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
@@ -7,6 +7,7 @@ from .serializers import ProductSerializer, CategorySerializer
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         # This sets the "added_by" field to the current user
@@ -16,4 +17,4 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
